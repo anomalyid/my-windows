@@ -1,0 +1,25 @@
+name: Windows Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: windows-2022
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Windows
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          .\setup.ps1
+
+      - name: Show system information
+        shell: powershell
+        run: |
+          Get-ComputerInfo |
+            Select-Object WindowsProductName, WindowsVersion, OsArchitecture
